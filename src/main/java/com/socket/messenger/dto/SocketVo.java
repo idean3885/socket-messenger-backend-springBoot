@@ -16,4 +16,7 @@ public class SocketVo {
     @Schema(description = "전달할 내용")
     private String content;
 
+    @Schema(description = "임시 이미지 경로")
+    private String sendImgSrc;
+
 }
