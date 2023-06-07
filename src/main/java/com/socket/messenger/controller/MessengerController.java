@@ -17,10 +17,18 @@ public class MessengerController {
     @SendTo("/send")
     public SocketVo SocketHandler(SocketVo socketVo) throws IOException {
         String recvImgSrc = "";
-        if (!"".equals(socketVo.getSendImgSrc())) {
-            recvImgSrc = imgSrc(socketVo.getSendImgSrc());
+        try{
+            if (!"".equals(socketVo.getSendImgSrc())) {
+                recvImgSrc = imgSrc(socketVo.getSendImgSrc());
+            }
+        }catch (IOException e){
+            e.printStackTrace();
         }
-        return SocketVo.builder().sendImgSrc(socketVo.getSendImgSrc()).build();
+
+        return SocketVo.builder()
+                .nickname(socketVo.getNickname())
+                .content(socketVo.getContent())
+                .sendImgSrc(socketVo.getSendImgSrc()).build();
     }
 
     public String imgSrc(String imgSrc) throws IOException {
