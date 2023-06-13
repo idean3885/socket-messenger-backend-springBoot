@@ -10,16 +10,18 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
+    private final String PREFIX_URI = "/socket/messenger";
+
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/")
-                .setAllowedOrigins("http://172.20.10.6:3000")
+        registry.addEndpoint(PREFIX_URI)
+                .setAllowedOrigins("http://192.168.1.15:3000")
                 .withSockJS();
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/send");
+        registry.enableSimpleBroker(PREFIX_URI + "/send");
     }
 
 }

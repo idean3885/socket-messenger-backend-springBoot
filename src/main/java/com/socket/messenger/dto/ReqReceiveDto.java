@@ -3,20 +3,22 @@ package com.socket.messenger.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
-@Schema(name = "SocketVo", description = "소켓통신용 메시지 Dto")
+import java.util.List;
+
+@Schema(name = "ReqReceiveDto", description = "메시지 요청 Dto")
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class SocketVo {
+public class ReqReceiveDto {
 
     @Schema(description = "닉네임")
     private String nickname;
 
     @Schema(description = "전달할 내용")
-    private String content;
+    private String contents;
 
-    @Schema(description = "임시 이미지 경로")
-    private String sendImgSrc;
+    @Schema(description = "Base64 이미지 목록")
+    private List<String> sendImgSrcList;
 
 }

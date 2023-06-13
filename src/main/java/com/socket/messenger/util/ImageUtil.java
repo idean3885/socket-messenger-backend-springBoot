@@ -1,8 +1,6 @@
 package com.socket.messenger.util;
 
 
-import org.springframework.boot.autoconfigure.couchbase.CouchbaseProperties;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -12,22 +10,28 @@ import java.util.Base64;
 
 public class ImageUtil {
 
-    public static BufferedImage base64Img(String imgSrc) throws IOException {
+    public static BufferedImage base64Img(String imgSrc) {
         byte[] bytes = Base64.getDecoder().decode(imgSrc);
-        BufferedImage image = ImageIO.read(new ByteArrayInputStream(bytes));
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(new ByteArrayInputStream(bytes));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return image;
     }
 
-    public static String imgBase64(BufferedImage image, String type) throws IOException {
+    public static String imgBase64(BufferedImage image, String type) {
         String imageString = "";
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-
-        ImageIO.write(image, type, bos);
-        byte[] imageBytes = bos.toByteArray();
-
-        imageString = Base64.getEncoder().encodeToString(imageBytes);
-
-        bos.close();
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ImageIO.write(image, type, bos);
+            byte[] imageBytes = bos.toByteArray();
+            imageString = Base64.getEncoder().encodeToString(imageBytes);
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return imageString;
     }
 }
