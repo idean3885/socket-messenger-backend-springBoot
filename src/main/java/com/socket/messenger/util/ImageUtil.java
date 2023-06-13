@@ -12,14 +12,14 @@ import java.util.Base64;
 public class ImageUtil {
 
     public static BufferedImage base64Img(String imgSrc) {
-        byte[] bytes = Base64.getDecoder().decode(imgSrc);
-        BufferedImage image = null;
+        byte[] bytes = imgSrc.substring(imgSrc.indexOf(",") + 1).getBytes(StandardCharsets.UTF_8);
+        byte[] image = Base64.getDecoder().decode(bytes);
         try {
-            image = ImageIO.read(new ByteArrayInputStream(bytes));
+            return ImageIO.read(new ByteArrayInputStream(image));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return image;
+        return null;
     }
 
     public static String imgBase64(BufferedImage image, String type) {
