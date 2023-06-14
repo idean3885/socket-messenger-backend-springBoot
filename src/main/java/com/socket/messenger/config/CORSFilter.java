@@ -18,11 +18,13 @@ public class CORSFilter implements Filter {
         var httpServletRequest = (HttpServletRequest) request;
         var httpservletResponse = (HttpServletResponse) response;
 
-        httpservletResponse.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "http://192.168.1.15:3000");
+        httpservletResponse.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "http://192.168.219.128:3000");
         httpservletResponse.setHeader("Access-Control-Allow-Headers",
                 "Origin, X-Requested-With, Content-Type, Accept, Authorization");
         httpservletResponse.setHeader("Access-Control-Allow-Credentials", "true");
         httpservletResponse.setHeader("Access-Control-Allow-Methods","*");
+        httpservletResponse.setHeader("Allow","GET,POST");
+
         if("OPTIONS".equalsIgnoreCase(httpServletRequest.getMethod())) {
             httpservletResponse.setStatus(HttpServletResponse.SC_OK);
         }else {
