@@ -2,7 +2,9 @@ package com.socket.messenger.util;
 
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.PixelGrabber;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -22,13 +24,26 @@ public class ImageUtil {
         return null;
     }
 
-    public static String imgBase64(BufferedImage image, String type) {
-        String imageString = "";
+    public static BufferedImage resize(BufferedImage buffer, int width, int height) {
+        Image image = buffer.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        int pixels[] = new int[width+height];
+        PixelGrabber pg = new PixelGrabber(image,0,0,width,height,pixels,0,width);
         try {
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            pg.grabPixels();
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        }
+        BufferedImage outPutImage = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
+        outPutImage.setRGB(0,0,width,height,pixels,0,width);
+        return outPutImage;
+    }
+
+    public static String imgBase64(BufferedImage image, String type) {
+        String imageString = "data:image/" + type + ";base64,";
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        try {
             ImageIO.write(image, type, bos);
-            byte[] imageBytes = bos.toByteArray();
-            imageString = Base64.getEncoder().encodeToString(imageBytes);
+            imageString = Base64.getEncoder().encodeToString(bos.toByteArray());
             bos.close();
         } catch (IOException e) {
             e.printStackTrace();
