@@ -10,7 +10,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class ReqReceiveDto {
+public class ReqMessageDto {
 
     @Schema(description = "닉네임")
     private String nickname;

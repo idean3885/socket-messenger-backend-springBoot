@@ -1,7 +1,7 @@
 package com.socket.messenger.controller;
 
-import com.socket.messenger.dto.ReqReceiveDto;
-import com.socket.messenger.dto.ResReceiveDto;
+import com.socket.messenger.dto.ReqMessageDto;
+import com.socket.messenger.dto.ResMessageDto;
 import com.socket.messenger.util.ImageUtil;
 import lombok.RequiredArgsConstructor;
 import org.joda.time.LocalDateTime;
@@ -26,21 +26,21 @@ public class SocketMessengerController {
     /**
      * <h3>메시지 전송</h3>
      *
-     * @param reqReceiveDto {@link ReqReceiveDto 메시지 요청 Dto}
+     * @param reqMessageDto {@link ReqMessageDto 메시지 요청 Dto}
      * @param headerAccessor {@link SimpMessageHeaderAccessor Stomp 메시지 헤더}
-     * @return {@link ResReceiveDto 메시지 응답 Dto}
+     * @return {@link ResMessageDto 메시지 응답 Dto}
      */
     @MessageMapping("/socket/messenger/receive")
     @SendTo("/socket/messenger/send")
-    public ResReceiveDto messageReceiveSend(@Payload ReqReceiveDto reqReceiveDto, SimpMessageHeaderAccessor headerAccessor) {
+    public ResMessageDto messageReceiveSend(@Payload ReqMessageDto reqMessageDto, SimpMessageHeaderAccessor headerAccessor) {
         var simpSessionId = String.valueOf(headerAccessor.getHeader("simpSessionId"));
-        return ResReceiveDto.builder()
+        return ResMessageDto.builder()
                 .responseTime(LocalDateTime.now().toString("yy.MM.dd HH:mm:ss.SSS"))
                 .simpSessionId(simpSessionId)
-                .nickname(reqReceiveDto.getNickname())
+                .nickname(reqMessageDto.getNickname())
                 .nicknameColor(getColorById(simpSessionId))
-                .contents(reqReceiveDto.getContents())
-                .recvImgSrcList(getResizeImgSrcList(reqReceiveDto.getSendImgSrcList()))
+                .contents(reqMessageDto.getContents())
+                .recvImgSrcList(getResizeImgSrcList(reqMessageDto.getSendImgSrcList()))
                 .build();
     }
 

@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class ResReceiveDto {
+public class ResMessageDto {
 
     @Schema(description = "메시지 전송시간")
     private String responseTime;
